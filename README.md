@@ -154,7 +154,7 @@ All above values are the default values.
 
 ## How to install
 
-Download and extract the `makedown` executable file from the [Releases](https://github.com/hirokiok/makedown/releases) page.
+Download and extract the `makedown` executable file from the [Releases](https://github.com/hirokistring/makedown/releases) page.
 
 ## For more details
 
