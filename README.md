@@ -149,6 +149,16 @@ Threfore, you can use the almost all command line options of the `make` command.
   export MAKEDOWN_MAKE_COMMAND=make
   ```
 
+- `MAKEDOWN_AUTO_OVERWRITE`
+
+  Suppress overwrite question.
+
+  Example:
+
+  ```sh
+  export MAKEDOWN_AUTO_OVERWRITE=Y
+  ```
+
 All above values are the default values.
 
 ## How to `install:`
