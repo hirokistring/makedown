@@ -145,3 +145,9 @@ That is because `makedown` gives precedence to `Makefile.md` over `README.md`.
 ```makefile
 WHO = makedown
 ```
+
+### `install:`
+
+```
+go install github.com/hirokistring/makedown
+```

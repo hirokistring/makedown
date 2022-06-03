@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	VERSION          = "0.0.1"
+	VERSION          = "0.0.2"
 	MAKEFILE         = "Makefile"
 	MAKEFILE_MD      = "Makefile.md"
 	README_MD        = "README.md"

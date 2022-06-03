@@ -151,9 +151,13 @@ Threfore, you can use the almost all command line options of the `make` command.
 
 All above values are the default values.
 
-## How to install
+## How to `install:`
 
-Download and extract the `makedown` executable file from the [Releases](https://github.com/hirokistring/makedown/releases) page.
+```
+go install github.com/hirokistring/makedown
+```
+
+Or, download and extract the `makedown` executable file from the [Releases](https://github.com/hirokistring/makedown/releases) page.
 
 ## For more details
 
