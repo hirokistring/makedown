@@ -2,11 +2,18 @@
 
 .ONESHELL:
 
+godown:
+	godown
+	
+diff:
+	diff main.go main.go.expected || true
+	diff makedown.go makedown.go.expected || true
+	
 generate:
 	./makedown --out Makefile
 	
 build:
-	go build -o makedown cmd/makedown/main.go
+	go build
 	
 build-and-notarize:
 	goreleaser build --snapshot --rm-dist

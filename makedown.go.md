@@ -1,3 +1,6 @@
+# makedown.go
+
+```go
 package main
 
 import (
@@ -9,8 +12,19 @@ import (
 
 	"github.com/russross/blackfriday/v2"
 )
+```
 
-func isHeadingWithColon(node *blackfriday.Node) (bool, string) {
+## Functions
+
+### func `isHeadingWithColon`
+
+- parameters
+  - `node *blackfriday.Node`
+- returns
+  - `bool`
+  - `string` : target
+
+```go
 	if node.Type == blackfriday.Heading {
 		lastWordNode := node.LastChild
 		if lastWordNode != nil {
@@ -21,9 +35,18 @@ func isHeadingWithColon(node *blackfriday.Node) (bool, string) {
 		}
 	}
 	return false, ""
-}
+```
 
-func findSiblingWithType(node *blackfriday.Node, nodeType blackfriday.NodeType) (bool, *blackfriday.Node) {
+### func `findSiblingWithType`
+
+- parameters
+  - `node *blackfriday.Node`
+  - `nodeType blackfriday.NodeType`
+- returns
+  - `bool`
+  - `*blackfriday.Node` : sibling
+
+```go
 	// Find sibling with the given node type
 	var sibling *blackfriday.Node = node.Prev // finding backward
 	for sibling != nil {
@@ -33,9 +56,19 @@ func findSiblingWithType(node *blackfriday.Node, nodeType blackfriday.NodeType) 
 		sibling = sibling.Prev
 	}
 	return false, sibling
-}
+```
 
-func findSiblingWithTypeBefore(node *blackfriday.Node, nodeType blackfriday.NodeType, beforeType blackfriday.NodeType) (bool, *blackfriday.Node) {
+### func `findSiblingWithTypeBefore`
+
+- parameters
+  - `node *blackfriday.Node`
+  - `nodeType blackfriday.NodeType`
+  - `beforeType blackfriday.NodeType`
+- returns
+  - `bool`
+  - `*blackfriday.Node` : sibling
+
+```go
 	// Find sibling with the given node type before the given another node type
 	var sibling *blackfriday.Node = node.Prev // finding backward
 	for sibling != nil {
@@ -48,9 +81,17 @@ func findSiblingWithTypeBefore(node *blackfriday.Node, nodeType blackfriday.Node
 		sibling = sibling.Prev
 	}
 	return false, sibling
-}
+```
 
-func findSiblingHeadingWithColon(node *blackfriday.Node) (bool, string) {
+### func `findSiblingHeadingWithColon`
+
+- parameters
+  - `node *blackfriday.Node`
+- returns
+  - `bool`
+  - `string` : target
+
+```go
 	// Find sibling of Heading with colon
 	found, heading := findSiblingWithType(node, blackfriday.Heading)
 	if found {
@@ -61,9 +102,16 @@ func findSiblingHeadingWithColon(node *blackfriday.Node) (bool, string) {
 	}
 	// fallback. header not found or header without colon is found.
 	return false, ""
-}
+```
 
-func getFirstLeaf(node *blackfriday.Node) *blackfriday.Node {
+### func `getFirstLeaf`
+
+- parameters
+  - `node *blackfriday.Node`
+- returns
+  - `*blackfriday.Node`
+
+```go
 	firstChild := node.FirstChild
 	for firstChild != nil {
 		if firstChild.IsLeaf() {
@@ -72,9 +120,18 @@ func getFirstLeaf(node *blackfriday.Node) *blackfriday.Node {
 		firstChild = firstChild.FirstChild
 	}
 	return firstChild
-}
+```
 
-func hasParentType(node *blackfriday.Node, nodeType blackfriday.NodeType) (bool, *blackfriday.Node) {
+### func `hasParentType`
+
+- parameters
+  - `node *blackfriday.Node`
+  - `nodeType blackfriday.NodeType`
+- returns
+  - `bool`
+  - `*blackfriday.Node`
+
+```go
 	parent := node.Parent
 	for parent != nil {
 		if parent.Type == nodeType {
@@ -83,9 +140,17 @@ func hasParentType(node *blackfriday.Node, nodeType blackfriday.NodeType) (bool,
 		parent = parent.Parent
 	}
 	return false, nil
-}
+```
 
-func leafWalker(buff *strings.Builder, fmterr *error) blackfriday.NodeVisitor {
+### func `leafWalker`
+
+- parameters
+  - `buff *strings.Builder`
+  - `fmterr *error`
+- returns
+  - `blackfriday.NodeVisitor`
+
+```go
 	return func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 		if entering {
 			if node.IsLeaf() {
@@ -96,9 +161,20 @@ func leafWalker(buff *strings.Builder, fmterr *error) blackfriday.NodeVisitor {
 		}
 		return blackfriday.GoToNext
 	}
-}
+```
 
-func isBlockQuoteWithColon(node *blackfriday.Node) (bool, string, string) {
+> // > : prerequisites
+
+### func `isBlockQuoteWithColon`
+
+- parameters
+  - `node *blackfriday.Node`
+- returns
+  - `bool`
+  - `string` : target
+  - `string` : quotes
+
+```go
 	if node.Type == blackfriday.BlockQuote {
 		var buff strings.Builder
 		var err error
@@ -120,9 +196,19 @@ func isBlockQuoteWithColon(node *blackfriday.Node) (bool, string, string) {
 		}
 	}
 	return false, "", ""
-}
+```
 
-func isCodeBlockUnderHeadingWithColon(node *blackfriday.Node) (bool, bool, string, string) {
+### func `isCodeBlockUnderHeadingWithColon`
+
+- parameters
+  - `node *blackfriday.Node`
+- returns
+  - `bool` : headingFound
+  - `bool` : firstCodeBlock
+  - `string` : target
+  - `string` : recipes
+
+```go
 	if node.Type == blackfriday.CodeBlock {
 		recipes := string(node.Literal)
 		//log.Printf("[makedown] recipes: '%s'", recipes)
@@ -135,18 +221,34 @@ func isCodeBlockUnderHeadingWithColon(node *blackfriday.Node) (bool, bool, strin
 		}
 	}
 	return false, false, "", ""
-}
+```
 
-func addIndents(recipes string) string {
+### func `addIndents`
+
+- parameters
+  - `recipes string`
+- returns
+  - `string`
+
+```go
 	recipesWithIndent := ""
 	lines := strings.Split(strings.ReplaceAll(recipes, "\r\n", "\n"), "\n")
 	for _, line := range lines {
 		recipesWithIndent += "\t" + line + "\n"
 	}
 	return recipesWithIndent
-}
+```
 
-func makedownWalker(buff *strings.Builder, targets *[]string, fmterr *error) blackfriday.NodeVisitor {
+### func `makedownWalker`
+
+- parameters
+  - `buff *strings.Builder`
+  - `targets *[]string`
+  - `fmterr *error`
+- returns
+  - `blackfriday.NodeVisitor`
+
+```go
 	return func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 		if entering {
 			// write targets and the prerequisites.
@@ -171,9 +273,19 @@ func makedownWalker(buff *strings.Builder, targets *[]string, fmterr *error) bla
 		}
 		return blackfriday.GoToNext
 	}
-}
+```
 
-func GenerateMakefileFromMarkdown(input_filename string, md []byte) ([]byte, []string, error) {
+## func `GenerateMakefileFromMarkdown`
+
+- parameters
+  - `input_filename string`
+  - `md []byte`
+- returns
+  - `[]byte`
+  - `[]string`
+  - `error`
+
+```go
 	var err error
 	n := blackfriday.New(blackfriday.WithExtensions(blackfriday.FencedCode)).Parse(md)
 
@@ -190,7 +302,4 @@ func GenerateMakefileFromMarkdown(input_filename string, md []byte) ([]byte, []s
 
 	bs := bytes.NewBufferString(buff.String())
 	return bs.Bytes(), targets, nil
-}
-
-// This file is generated from "makedown.go.md" by godown.
-// https://github.com/hirokistring/godown
+```

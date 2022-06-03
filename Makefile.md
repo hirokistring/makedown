@@ -8,15 +8,30 @@ This `Makefile.md` file can be run by `makedown`.
 
 Note that this `Makefile.md` assumes that you have `gmake` 3.82+ to use `.ONESHELL`.
 
-Be sure you have an required version of `make`,
-especially on MacOS. Then, type:
-
-`export MAKEDOWN_MAKE_COMMAND=gmake`
-
 ```
 #!/usr/local/bin/gmake -f
 
 .ONESHELL:
+```
+
+Make sure you have a required version of `make`,
+especially on MacOS. Then, type:
+
+`export MAKEDOWN_MAKE_COMMAND=gmake`
+
+## Howo to generate Go sources by `godown:`
+
+This generates `*.go` from `*.go.md` by [`godown`](https://github.com/hirokistring/godown).
+
+```
+godown
+```
+
+## Check differences by `diff:`
+
+```
+diff main.go main.go.expected || true
+diff makedown.go makedown.go.expected || true
 ```
 
 ## How to `generate:`
@@ -30,7 +45,7 @@ This only generates `Makefile`. No targets will be executed.
 ## How to just `build:`
 
 ```
-go build -o makedown cmd/makedown/main.go
+go build
 ```
 
 The generated `makedown` executable file is not ready to be released. It has to be notarized by [gon](https://github.com/mitchellh/gon) for MacOS.

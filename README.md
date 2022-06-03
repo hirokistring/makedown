@@ -4,11 +4,10 @@
 
 You can execute `make` targets written in `*.md` files by the `make` command.
 
-It enables you to write `make` targets in `Makefile.md` or `README.md`, etc.
-
 ![Overview](docs/images/overview.png)
 
 - You can write descriptions about `make` targets with texts, images, and even with tables, in markdown format.
+- It reads `make` targets written in `Makefile.md` or `README.md` by default.
 - You can integrate your `README.md` and `Makefile` into the same file.
 
 ## How it works
