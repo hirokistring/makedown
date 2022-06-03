@@ -15,6 +15,9 @@ generate:
 build:
 	go build
 	
+build-with-godown:
+	godown build
+	
 build-and-notarize:
 	goreleaser build --snapshot --rm-dist
 	

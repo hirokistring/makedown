@@ -18,14 +18,15 @@ import (
 
 ```go
 const (
-	VERSION          = "0.0.1"
-	MAKEFILE         = "Makefile"
-	MAKEFILE_MD      = "Makefile.md"
-	README_MD        = "README.md"
-	ENV_INPUT_FILE   = "MAKEDOWN_INPUT_FILE"
-	ENV_OUTPUT_FILE  = "MAKEDOWN_OUTPUT_FILE"
-	ENV_MAKE_COMMAND = "MAKEDOWN_MAKE_COMMAND"
-	MAKE_COMMAND     = "make"
+	VERSION            = "0.0.3"
+	MAKEFILE           = "Makefile"
+	MAKEFILE_MD        = "Makefile.md"
+	README_MD          = "README.md"
+	ENV_INPUT_FILE     = "MAKEDOWN_INPUT_FILE"
+	ENV_OUTPUT_FILE    = "MAKEDOWN_OUTPUT_FILE"
+	ENV_MAKE_COMMAND   = "MAKEDOWN_MAKE_COMMAND"
+	ENV_AUTO_OVERWRITE = "MAKEDOWN_AUTO_OVERWRITE"
+	MAKE_COMMAND       = "make"
 )
 ```
 
@@ -110,10 +111,15 @@ For more information,
 	// Determine the output file name
 	output_filename, keep := determineOutputFile()
 	if exists(output_filename) {
-		overwrite := askOverwrite(output_filename)
-		if !overwrite {
-			fmt.Println("makedown aborted.")
-			os.Exit(0)
+		// is MAKEDOWN_AUTO_OVERWRITE=Y ?
+		env_value, env_set := os.LookupEnv(ENV_AUTO_OVERWRITE)
+		if !env_set || env_value != "Y" {
+			// Otherwise, ask overwrite or not
+			overwrite := askOverwrite(output_filename)
+			if !overwrite {
+				fmt.Println("makedown aborted.")
+				os.Exit(0)
+			}
 		}
 	}
 
@@ -221,6 +227,8 @@ For more information,
 			case "Y", "y", "yes", "Yes", "YES":
 				overwrite = true
 				entered = true
+				// FYI
+				fmt.Println("Set MAKEDOWN_AUTO_OVERWRITE=Y environment variable to suppress this question.")
 			case "N", "n", "no", "No", "NO":
 				overwrite = false
 				entered = true

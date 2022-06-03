@@ -48,6 +48,12 @@ This only generates `Makefile`. No targets will be executed.
 go build
 ```
 
+## Build with godown `build-with-godown:`
+
+```
+godown build
+```
+
 The generated `makedown` executable file is not ready to be released. It has to be notarized by [gon](https://github.com/mitchellh/gon) for MacOS.
 
 ## How to `build-and-notarize:`
